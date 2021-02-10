@@ -1,36 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
 
     <ImageView
         android:id="@+id/profile_photo"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="6dp"
         />
 
-    <EditText
+    <TextView
         android:id="@+id/user_handle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/profile_photo"
         android:layout_toEndOf="@id/profile_photo"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="6dp"
+        android:textSize="17sp"
+        android:textStyle="bold"
         android:text="@string/sample_handle"
-
         />
 
-    <EditText
+    <TextView
         android:id="@+id/tweet_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@id/user_handle"
         android:layout_below="@id/user_handle"
+        android:layout_marginEnd="6dp"
+        android:textSize="15sp"
         android:text="@string/sample_tweet"
         />
+
 
 </RelativeLayout>
