@@ -27,6 +27,7 @@ public class TimelineActivity extends AppCompatActivity {
     private List<Tweet> tweet_feed;
     private TweetsAdapter adapter;
     private SwipeRefreshLayout swiper;
+    private EndlessRecyclerViewScrollListener endless_scroller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,52 @@ public class TimelineActivity extends AppCompatActivity {
         tweet_feed = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweet_feed);
 
-        recycler_view_tweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager my_lin_manager = new LinearLayoutManager(this);
+
+        recycler_view_tweets.setLayoutManager(my_lin_manager);
         recycler_view_tweets.setAdapter(adapter);
 
+        endless_scroller = new EndlessRecyclerViewScrollListener(my_lin_manager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG, "On Load More: " + page);
+                loadMoreData();
+            }
+        };
+
+        // Adds the scroll listener to RecyclerView
+        recycler_view_tweets.addOnScrollListener(endless_scroller);
+
         populateHomeTimeline();
+    }
+
+    private void loadMoreData() {
+        // Send an API request to retrieve appropriate paginated data
+        //  --> Send the request including an offset value (i.e `page`) as a query parameter.
+        client.getNextPageOfTweets(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG, "loadMoreData(): Success -> " + json.toString());
+
+                //  --> Deserialize and construct new model objects from the API response
+                JSONArray my_array = json.jsonArray;
+
+                try {
+                    List<Tweet> older_tweets = Tweet.from_json_array(my_array);
+                    //  --> Append the new data objects to the existing set of items inside the array of items
+                    //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
+                    adapter.addAll(older_tweets);
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.i(TAG, "loadMoreData(): Failure ->", throwable);
+            }
+        }, tweet_feed.get(tweet_feed.size() - 1).getId());
     }
 
     private void populateHomeTimeline() {
