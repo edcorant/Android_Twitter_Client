@@ -47,18 +47,22 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView profile_photo;
-        TextView tweet_content, user_handle;
+        TextView tweet_content, user_handle, user_name, timestamp;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             profile_photo = itemView.findViewById(R.id.profile_photo);
             tweet_content = itemView.findViewById(R.id.tweet_content);
             user_handle = itemView.findViewById(R.id.user_handle);
+            user_name = itemView.findViewById(R.id.user_name);
+            timestamp = itemView.findViewById(R.id.time_since);
         }
 
-        public void bind(Tweet tweet) {
+        public void bind(@NotNull Tweet tweet) {
             tweet_content.setText(tweet.getContent());
-            user_handle.setText(tweet.getUser().getHandle());
+            user_handle.setText(context.getString(R.string.user_handle, tweet.getUser().getHandle()));
+            user_name.setText(tweet.getUser().getName());
+            timestamp.setText(tweet.getFormattedTimestamp());
             Glide.with(context).load(tweet.getUser().getProfile_photo_url()).into(profile_photo);
         }
     }
