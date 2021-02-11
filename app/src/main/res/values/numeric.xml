@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer name="MAX_TWEET_LENGTH">140</integer>
+
+</resources>

@@ -10,5 +10,10 @@
     <string name="sample_handle">SomeTwitterDude</string>
     <string name="sample_tweet">I miss Parler...</string>
     <string name="sample_time">10m</string>
+    <string name="compose_button">Compose</string>
+    <string name="compose_window_hint">What&#39;s happening?</string>
+    <string name="submit_tweet">Tweet</string>
+    <string name="empty_tweet_warning">Tweet must not be empty</string>
+    <string name="tweet_too_long_warning">Tweet must not be longer than %1$d characters</string>
 
 </resources>
