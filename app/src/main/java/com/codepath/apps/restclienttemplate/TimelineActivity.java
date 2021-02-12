@@ -153,7 +153,7 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
 
-        if (requestCode == R.integer.REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == getResources().getInteger(R.integer.REQUEST_CODE) && resultCode == RESULT_OK) {
             // get data from intent (tweet content)
             Tweet submitted_tweet = Parcels.unwrap(data.getParcelableExtra(getString(R.string.TWEET_PARCEL_ID)));
             // put tweet on recycler view
