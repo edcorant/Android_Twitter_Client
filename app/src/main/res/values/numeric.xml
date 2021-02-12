@@ -2,5 +2,6 @@
 <resources>
 
     <integer name="MAX_TWEET_LENGTH">140</integer>
+    <integer name="REQUEST_CODE">101</integer>
 
 </resources>

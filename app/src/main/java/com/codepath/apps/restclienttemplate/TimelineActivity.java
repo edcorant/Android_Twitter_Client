@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,10 +143,25 @@ public class TimelineActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.compose_button) {
             Intent intent = new Intent(this, ComposeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, getResources().getInteger(R.integer.REQUEST_CODE));
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+
+        if (requestCode == R.integer.REQUEST_CODE && resultCode == RESULT_OK) {
+            // get data from intent (tweet content)
+            Tweet submitted_tweet = Parcels.unwrap(data.getParcelableExtra(getString(R.string.TWEET_PARCEL_ID)));
+            // put tweet on recycler view
+            tweet_feed.add(0, submitted_tweet);
+            adapter.notifyItemInserted(0);
+            recycler_view_tweets.smoothScrollToPosition(0);
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
